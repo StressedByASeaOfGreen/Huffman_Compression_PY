@@ -14,22 +14,27 @@ class arbre:
     def __lt__(self,other):
         return self.freq < other.freq
 
-def abrtodict(abr, val="", dictionnaire=None): 
-  
+def abr_to_dict(abr, val="", dictionnaire=None): 
+    #creer un dictionnaire vide lors de la première loop de la fonction
+    if dictionnaire is None:
+        dictionnaire = {}
+
     # creer un str additionnant tous les valeurs composant un charactère
-    NouVal = val + str(abr.dir)
+    Nou_Val = val + str(abr.dir)
   
     #voir si l'arbre continu
     #si oui, on encode l'intérieur
     if abr.gauche: 
-        abrtodict(abr.gauche, NouVal, dictionnaire) 
+        abr_to_dict(abr.gauche, Nou_Val, dictionnaire) 
     if abr.droite: 
-        abrtodict(abr.droite, NouVal, dictionnaire) 
+        abr_to_dict(abr.droite, Nou_Val, dictionnaire) 
   
         #si l'arbre arrête alors sauver la charactère correspondant dans le dictionnaire
     if not abr.gauche and not abr.droite : 
         #print(f"{abr.char}:{NouVal}")
-        dictionnaire[abr.char] = NouVal
+        dictionnaire[abr.char] = Nou_Val
+    
+    return dictionnaire
 
 
 def combine(abr): #pour combiner les arbres de huffman
@@ -39,60 +44,60 @@ def combine(abr): #pour combiner les arbres de huffman
         d = h.heappop(abr)
         d.dir = 0
         #créer un nouvel arbre
-        nouvabr = arbre(None, g.freq + d.freq)
-        nouvabr.gauche = g
-        nouvabr.droite = d
-        h.heappush(abr,nouvabr)# remettre l'arbre dans la liste abr
+        nouv_abr = arbre(None, g.freq + d.freq)
+        nouv_abr.gauche = g
+        nouv_abr.droite = d
+        h.heappush(abr,nouv_abr)# remettre l'arbre dans la liste abr
         h.heapify(abr)
         """for i in abr:
             print (i.freq)
         print("......")"""
 
 
-def abrtostr(abr):#format l'arbre huffman dans un string     https://stackoverflow.com/a/15083564
+def abr_to_str(abr):#format l'arbre huffman dans un string     https://stackoverflow.com/a/15083564
     data =''
     if (abr.droite or abr.gauche) or (abr.droite and abr.gauche):
         data += '0'
-        data += abrtostr(abr.gauche)
-        data += abrtostr(abr.droite)
+        data += abr_to_str(abr.gauche)
+        data += abr_to_str(abr.droite)
     else:
         data += '1'
         data += abr.char
     return data
 
 
-def strtoabr(filestr):
+def str_to_abr(file_str):
    
-    if not filestr:
+    if not file_str:
         return None, ''
 
     #   Creer la racine de l'arbre
     racine = arbre(None, None)
 
-    if filestr[0] == '0':  #monceau parent
-        filestr = filestr[1:]
+    if file_str[0] == '0':  #monceau parent
+        file_str = file_str[1:]
 
         #décoder les 2 branches de l'arbre
-        racine.gauche, filestr = strtoabr(filestr)
+        racine.gauche, file_str = str_to_abr(file_str)
         racine.gauche.dir = 1
-        racine.droite, filestr = strtoabr(filestr)
+        racine.droite, file_str = str_to_abr(file_str)
         racine.droite.dir = 0
     else:  # Monceau feuille(fin)
-        racine.char = filestr[1]
-        filestr = filestr[2:]
+        racine.char = file_str[1]
+        file_str = file_str[2:]
 
-    return racine, filestr
+    return racine, file_str
 
-def reversedict(diction={}):
+def reverse_dict(diction={}):
     dictionnaire = dict((value, key) for key, value in diction.items())
     return dictionnaire
 
-def dicttostr(txtencode,dictionnaire={},txtdecode = ""): #pour décompresser le txt à partir d'un dictionnaire inversé comme { 10001:t ,  ...}
+def dict_to_str(txt_encode,dictionnaire={},txt_decode = ""): #pour décompresser le txt à partir d'un dictionnaire inversé comme { 10001:t ,  ...}
 
-    while len(txtencode)>0 :
+    while len(txt_encode)>0 :
         for bin in dictionnaire:
-            if txtencode.startswith(bin):
-                txtdecode += dictionnaire[bin]
-                txtencode = txtencode[len(bin):]
-    return txtdecode
+            if txt_encode.startswith(bin):
+                txt_decode += dictionnaire[bin]
+                txt_encode = txt_encode[len(bin):]
+    return txt_decode
                 

@@ -34,38 +34,38 @@ Lfreq = sorted(freq, key=freq.get, reverse=True)
 #print (Lfreq)
 #creer un liste d'arbre à une valeur
 abr = []
-for i in range(len(Lfreq)):
-    abr.append(arbre(Lfreq[i],freq[Lfreq[i]]))
+for item in Lfreq:
+    abr.append(arbre(item,freq[item]))
 
 #combinons les arbre
 own.combine(abr)
 
 
 #creer un dictionnaire avec les valeurs binaire de tous les charactères
-dictbinaire = {}
-own.abrtodict(abr[0],dictionnaire= dictbinaire) #abr[0] car il y a juste 1 arbre dans abr
-#print(dictbinaire)
+
+dict_binaire = own.abr_to_dict(abr[0]) #abr[0] car il y a juste 1 arbre dans abr
+#print(dict_binaire)
 
 #encode txt
-txtencode = ''
+txt_encode = ''
 for char in txt:
-    txtencode += dictbinaire[char]
+    txt_encode += dict_binaire[char]
 
 
 #print(f"texte encodé:{txtencode}")
 #sauver le binaire dans un doc txt
 bin = open('binaire.txt' , 'wt')
-bin.write(txtencode)
+bin.write(txt_encode)
 bin.close()
 open('ArbreHuffman.txt', 'w').close()# clear doc
-abrh = open('ArbreHuffman.txt' , 'wt')
+abr_h = open('ArbreHuffman.txt' , 'wt')
 
-txttree = own.abrtostr(abr[0])
+txt_tree = own.abr_to_str(abr[0])
 #print(txttree)
-abrh.write(txttree)
-abrh.close()
+abr_h.write(txt_tree)
+abr_h.close()
 #le compte final compréssé
 #
-print(f'la longeur du texte compressé en binaire est de {(len(txtencode)+len(txttree)+ (sum(1 for char in txttree if char not in ("0", "1"))*7))} bits')
+print(f'la longeur du texte compressé en binaire est de {(len(txt_encode)+len(txt_tree)+ (sum(1 for char in txt_tree if char not in ("0", "1"))*7))} bits')
 #print(f"une longueur de {len(txtencode)} charactères")
 #print('done')

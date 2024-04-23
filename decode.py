@@ -14,24 +14,24 @@ class arbre:
     
 #lire l'arbre compressé
 file = open("ArbreHuffman.txt", "r")
-filestr = file.read()
+file_str = file.read()
 file.close()
 
 #reconstruire l'arbre
-abr, strrestant =own.strtoabr(filestr)
+abr, str_restant =own.str_to_abr(file_str)
 
 #recréer un dict a partir de l'arbre
 dict={}
-own.abrtodict(abr,dictionnaire=dict)
+own.abr_to_dict(abr,dictionnaire=dict)
 #print(dict)
 
 #reverse le dict pour chercher key en fonction de leur valeur
-reversedict = own.reversedict(diction = dict)
+reverse_dict = own.reverse_dict(diction = dict)
 #print(reversedict)
 
-filebinaire = open('binaire.txt',"r")
-fileoutput = open('textoutput',"w")
-binaire = filebinaire.read()
-txtdecode = own.dicttostr(binaire, dictionnaire = reversedict)#encoder le text
+file_binaire = open('binaire.txt',"r")
+file_output = open('textoutput',"w")
+binaire = file_binaire.read()
+txt_decode = own.dict_to_str(binaire, dictionnaire = reverse_dict)#encoder le text
 #print(txtdecode)
-fileoutput.write(str(txtdecode))#storer le texte décomprèssé
+file_output.write(str(txt_decode))#storer le texte décomprèssé
