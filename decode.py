@@ -30,7 +30,7 @@ reverse_dict = own.reverse_dict(diction = dict)
 #print(reversedict)
 
 file_binaire = open('binaire.txt',"r")
-file_output = open('textoutput',"w")
+file_output = open('textoutput.txt',"w")
 binaire = file_binaire.read()
 txt_decode = own.dict_to_str(binaire, dictionnaire = reverse_dict)#encoder le text
 #print(txtdecode)
