@@ -26,12 +26,13 @@ def abr_to_dict(abr, val="", dictionnaire=None):
     #si oui, on encode l'intérieur
     if abr.gauche: 
         abr_to_dict(abr.gauche, Nou_Val, dictionnaire) 
+
     if abr.droite: 
         abr_to_dict(abr.droite, Nou_Val, dictionnaire) 
-  
+    #on utilise pas elif parce qu<il est possible d'avoir une branche de droite et une branche de gauche dans un meme arbre 
         #si l'arbre arrête alors sauver la charactère correspondant dans le dictionnaire
-    if not abr.gauche and not abr.droite : 
-        #print(f"{abr.char}:{NouVal}")
+    else : 
+        #print(f"{abr.char}:{Nou_Val}")
         dictionnaire[abr.char] = Nou_Val
     
     return dictionnaire
@@ -55,26 +56,24 @@ def combine(abr): #pour combiner les arbres de huffman
 
 
 def abr_to_str(abr):#format l'arbre huffman dans un string     https://stackoverflow.com/a/15083564
-    data =''
+    data =[]
     if (abr.droite or abr.gauche) or (abr.droite and abr.gauche):
-        data += '0'
+        data.append('0')
         data += abr_to_str(abr.gauche)
         data += abr_to_str(abr.droite)
     else:
-        data += '1'
+        data.append('1')
         data += abr.char
-    return data
+    return "".join(data)
 
 
 def str_to_abr(file_str):
-   
-    if not file_str:
-        return None, ''
-
-    #   Creer la racine de l'arbre
+       #   Creer la racine de l'arbre
     racine = arbre(None, None)
 
-    if file_str[0] == '0':  #monceau parent
+    if not file_str:
+        return None, ''
+    elif file_str[0] == '0':  #monceau parent
         file_str = file_str[1:]
 
         #décoder les 2 branches de l'arbre
@@ -92,12 +91,12 @@ def reverse_dict(diction={}):
     dictionnaire = dict((value, key) for key, value in diction.items())
     return dictionnaire
 
-def dict_to_str(txt_encode,dictionnaire={},txt_decode = ""): #pour décompresser le txt à partir d'un dictionnaire inversé comme { 10001:t ,  ...}
-
+def dict_to_str(txt_encode,dictionnaire={}): #pour décompresser le txt à partir d'un dictionnaire inversé comme { 10001:t ,  ...}
+    txt_decode = ""
     while len(txt_encode)>0 :
-        for bin in dictionnaire:
-            if txt_encode.startswith(bin):
-                txt_decode += dictionnaire[bin]
-                txt_encode = txt_encode[len(bin):]
+        for code_binaire in dictionnaire:
+            if txt_encode.startswith(code_binaire):
+                txt_decode += dictionnaire[code_binaire]
+                txt_encode = txt_encode[len(code_binaire):]
     return txt_decode
                 

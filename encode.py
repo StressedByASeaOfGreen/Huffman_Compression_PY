@@ -39,11 +39,11 @@ for item in Lfreq:
 
 #combinons les arbre
 own.combine(abr)
-
+abr = abr[0]
 
 #creer un dictionnaire avec les valeurs binaire de tous les charactères
 
-dict_binaire = own.abr_to_dict(abr[0]) #abr[0] car il y a juste 1 arbre dans abr
+dict_binaire = own.abr_to_dict(abr)
 #print(dict_binaire)
 
 #encode txt
@@ -60,7 +60,7 @@ bin.close()
 open('ArbreHuffman.txt', 'w').close()# clear doc
 abr_h = open('ArbreHuffman.txt' , 'wt')
 
-txt_tree = own.abr_to_str(abr[0])
+txt_tree = own.abr_to_str(abr)
 #print(txttree)
 abr_h.write(txt_tree)
 abr_h.close()

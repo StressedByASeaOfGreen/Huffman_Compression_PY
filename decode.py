@@ -21,17 +21,17 @@ file.close()
 abr, str_restant =own.str_to_abr(file_str)
 
 #recréer un dict a partir de l'arbre
-dict={}
-own.abr_to_dict(abr,dictionnaire=dict)
+dict_bin={}
+own.abr_to_dict(abr,dictionnaire=dict_bin)
 #print(dict)
 
 #reverse le dict pour chercher key en fonction de leur valeur
-reverse_dict = own.reverse_dict(diction = dict)
-#print(reversedict)
+reverse_dict = own.reverse_dict(diction = dict_bin)
+#print(reverse_dict)
 
 file_binaire = open('binaire.txt',"r")
 file_output = open('textoutput.txt',"w")
 binaire = file_binaire.read()
 txt_decode = own.dict_to_str(binaire, dictionnaire = reverse_dict)#encoder le text
-#print(txtdecode)
+#print(txt_decode)
 file_output.write(str(txt_decode))#storer le texte décomprèssé
